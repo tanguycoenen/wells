@@ -2,16 +2,13 @@
  * Created by tanguycoenen on 20/09/15.
  */
 
-$(document).ready ( function(){
-    var request = new XMLHttpRequest();
-    request.open("GET", "file.json", false);
-    request.send(null)
-    var my_JSON_object = JSON.parse(request.responseText);
-    my_JSON_object = JSON_create_date_ISO(my_JSON_object,'date');
-    data = MG.convert.date(my_JSON_object, 'date', '%Y-%m-%dT%H:%M:%SZ');
-    d3.csv('labels.csv', function(error,JSON_data) {
+d3.csv('file.csv', function(error,JSON_feature_data) {
+    console.log(JSON_feature_data);
+    JSON_feature_data = JSON_create_date_ISO(JSON_feature_data,'date');
+    data = MG.convert.date(JSON_feature_data, 'date', '%Y-%m-%dT%H:%M:%SZ');
+    d3.csv('labels.csv', function(error,JSON_label_data) {
         if (error) return console.warn(error);
-        labels_data = JSON_create_date_ISO(JSON_data,'date');
+        labels_data = JSON_create_date_ISO(JSON_label_data,'date');
         labels_data = JSON_create_label_key(labels_data);
         labels_data = MG.convert.date(labels_data, 'date', '%Y-%m-%dT%H:%M:%SZ');
         console.log(labels_data);
@@ -42,8 +39,8 @@ $(document).ready ( function(){
             y_accessor: ' HF'
         });
     });
+});
 
-})
 /*
 Enumerates over a JSON array and gets all the elements of a certain key
  */
@@ -64,6 +61,10 @@ function date_splitter(old_format_date){
     new_format_date = date+"T"+time+"Z";
     return new_format_date;
 }
+
+/*
+Replaces 'annotation' keys by 'label' keys
+ */
 
 function JSON_create_label_key(JSON_object) {
     for (var i = 0; i < JSON_object.length; i++){
