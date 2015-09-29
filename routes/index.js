@@ -5,7 +5,7 @@ var jsondata;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Wearable Living Lab Analysis tool', data: jsondata,scripts:['javascripts/metricsgraphics.js','javascripts/graph.js']});
+  res.render('index', { title: 'Wearable Living Lab Analysis Platform', data: jsondata,scripts:['javascripts/metricsgraphics.js','javascripts/graph.js']});
 });
 
 module.exports = router;
